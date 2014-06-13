@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TimelineJS</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script src="http://cdn.knightlab.com/libs/timeline/latest/js/storyjs-embed.js"></script>
+    <script>
+        $(document).ready(function() {
+            dataSource = {
+                "timeline":
+                {
+                    "headline":"The Main Timeline Headline Goes here",
+                    "type":"default",
+                    "text":"<p>Intro body text goes here, some HTML is ok</p>",
+                    "date": [
+                        {
+                            "startDate":"2011,12,10",
+                            "endDate":"2011,12,11",
+                            "headline":"Headline Goes Here",
+                            "text":"<p>date Body text goes here, some HTML is OK</p>",
+                            "asset": {
+                                "credit":"Credit Name Goes Here",
+                                "caption":"Caption text goes here"
+                            }
+                        },
+                        {
+                            "startDate":"2011,12,11",
+                            "endDate":"2011,12,12",
+                            "headline":"Headline Goes Here",
+                            "text":"<p>date Body text goes here, some HTML is OK</p>",
+                            "asset": {
+                                "credit":"Credit Name Goes Here",
+                                "caption":"Caption text goes here"
+                            }
+                        }
+                    ],
+                }
+            }
+            createStoryJS({
+                type:       'timeline',
+                width:      '1000',
+                height:     '750',
+                source:		dataSource,
+                embed_id:   'my-timeline'
+            });
+        });
+    </script>
+</head>
+<body>
+    <div id="my-timeline"></div>
+</body>
+</html>
