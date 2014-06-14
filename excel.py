@@ -1,22 +1,73 @@
 #!/usr/bin/env python
 from xlrd import open_workbook
+from Tkinter import *
 
-wb = open_workbook('samples.xlsx')
+funds = dict()
 
-sheets = wb.sheets()
+class Event:
+    def __init__(self, name, comment, date):
+        self.name = name
+        self.comment = comment
+        self.date = date
 
-for s in sheets:
-    print 'Sheet:', s.name
+class Fund:
+    def __init__(self, name):
+        self.name = name
+        self.events = []
 
-sheet1 = sheets[0]
-for row in range(sheet1.nrows):
-    for col in range(sheet1.ncols):
-        print sheet1.cell(row, col).value
-    print
+    def addEvent(self, event):
+        self.events.append(event)
 
-    #for row in range(s.nrows):
-        #values = []
-        #for col in range(s.ncols):
-            #values.append(s.cell(row, col).value)
-            #print ',', values
-        #print
+def extractData(filename):
+    wb = open_workbook(filename)
+    sheets = wb.sheets()
+    sheet = sheets[0]
+
+    umbrellaCol = 2
+    fundCol = umbrellaCol + 1
+    eventCol = fundCol + 1
+    commentCol = eventCol + 1
+    TDCDateCol = commentCol + 1
+
+    for row in range(sheet.nrows)[1:]:
+        firstColValue = sheet.cell(row, 0).value
+        if firstColValue == "Local" or firstColValue == "Global":
+            umbrellaName = sheet.cell(row, umbrellaCol).value
+            fundName = sheet.cell(row, fundCol).value
+            eventName = sheet.cell(row, eventCol).value
+            date = sheet.cell(row, TDCDateCol).value
+
+            if umbrellaName not in funds.keys():
+                funds[umbrellaName] = Fund(umbrellaName)
+
+            if fundName not in funds.keys():
+                funds[fundName] = Fund(fundName)
+
+def lb_click_callback(event):
+    index = event.widget.curselection()
+    print event.widget.get(index)
+
+def tk():
+    root = Tk()
+
+    #Listbox configuration
+    lb = Listbox(root, width=100, height=50, selectmode=SINGLE)
+    i = 1
+    sortedFundNames = sorted(funds.keys())
+    for fund in sortedFundNames:
+        lb.insert(i, fund)
+        i = i + 1
+    lb.bind("<ButtonRelease-1>", lb_click_callback)
+    lb.pack()
+
+    root.mainloop()
+
+
+def main():
+    filename = 'samples.xlsx'
+    funds = extractData(filename)
+    tk()
+
+if __name__ == '__main__':
+    main()
+
