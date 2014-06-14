@@ -1,9 +1,11 @@
 #!/usr/bin/env python
+import webbrowser, os
 from xlrd import open_workbook, xldate_as_tuple
 from Tkinter import *
 
 funds = dict()
 
+#--------Data structure---------------------
 class Event:
     def __init__(self, name, comment, date):
         self.name = name
@@ -27,6 +29,14 @@ class Fund:
             print "TDC Date: ", event.date
             print "---------------"
 
+    def showTimeline(self):
+        filename = 'index.html'
+        filepath = os.path.realpath(filename)
+        webbrowser.open('file://'+filepath)
+
+#-------------------------------------------
+
+#---------Get data from excel---------------
 def extractData(filename):
     wb = open_workbook(filename)
     sheets = wb.sheets()
@@ -46,23 +56,28 @@ def extractData(filename):
             eventName = sheet.cell(row, eventCol).value
             comment = sheet.cell(row, commentCol).value
             date = sheet.cell(row, TDCDateCol).value
+
             if not isinstance(date, basestring):
                 date = xldate_as_tuple(date, 0)
+                event = Event(eventName, comment, date)
 
-            if umbrellaName not in funds.keys():
-                funds[umbrellaName] = Fund(umbrellaName)
+                if umbrellaName != '-' and umbrellaName != '':
+                    if umbrellaName not in funds.keys():
+                        funds[umbrellaName] = Fund(umbrellaName)
+                    funds[umbrellaName].addEvent(event)
 
-            if fundName not in funds.keys():
-                funds[fundName] = Fund(fundName)
+                if fundName != '-' and fundName != '':
+                    if fundName not in funds.keys():
+                        funds[fundName] = Fund(fundName)
+                    funds[fundName].addEvent(event)
 
-            event = Event(eventName, comment, date)
-            funds[umbrellaName].addEvent(event)
-            funds[fundName].addEvent(event)
+#-------------------------------------------
 
+#----------------GUI------------------------
 def lb_click_callback(event):
     index = event.widget.curselection()
     fundName = event.widget.get(index)
-    funds[fundName].printSelf()
+    funds[fundName].showTimeline()
 
 def tk():
     root = Tk()
@@ -78,7 +93,7 @@ def tk():
     lb.pack()
 
     root.mainloop()
-
+#-------------------------------------------
 
 def main():
     filename = 'samples.xlsx'
