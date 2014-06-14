@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from xlrd import open_workbook
+from xlrd import open_workbook, xldate_as_tuple
 from Tkinter import *
 
 funds = dict()
@@ -18,6 +18,15 @@ class Fund:
     def addEvent(self, event):
         self.events.append(event)
 
+    def printSelf(self):
+        print self.name
+        print "----"
+        for event in self.events:
+            print "Event Type: ", event.name
+            print "Event Comment: ", event.comment
+            print "TDC Date: ", event.date
+            print "---------------"
+
 def extractData(filename):
     wb = open_workbook(filename)
     sheets = wb.sheets()
@@ -35,7 +44,10 @@ def extractData(filename):
             umbrellaName = sheet.cell(row, umbrellaCol).value
             fundName = sheet.cell(row, fundCol).value
             eventName = sheet.cell(row, eventCol).value
+            comment = sheet.cell(row, commentCol).value
             date = sheet.cell(row, TDCDateCol).value
+            if not isinstance(date, basestring):
+                date = xldate_as_tuple(date, 0)
 
             if umbrellaName not in funds.keys():
                 funds[umbrellaName] = Fund(umbrellaName)
@@ -43,9 +55,14 @@ def extractData(filename):
             if fundName not in funds.keys():
                 funds[fundName] = Fund(fundName)
 
+            event = Event(eventName, comment, date)
+            funds[umbrellaName].addEvent(event)
+            funds[fundName].addEvent(event)
+
 def lb_click_callback(event):
     index = event.widget.curselection()
-    print event.widget.get(index)
+    fundName = event.widget.get(index)
+    funds[fundName].printSelf()
 
 def tk():
     root = Tk()
