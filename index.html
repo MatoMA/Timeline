@@ -10,28 +10,11 @@
             dataSource = {
                 "timeline":
                 {
-                    "headline":"FundName",
+                    "headline":"BNPP Fund III",
                     "type":"default",
                     "text":"<p></p>",
-                    "date": [
-                        {
-                            "startDate":"2011,12,10",
-                            "endDate":"2011,12,10",
-                            "headline":"Headline Goes Here",
-                            "text":"<p>date Body text goes here, some HTML is OK</p>",
-                        },
-                        {
-                            "startDate":"2011,12,10",
-                            "endDate":"2011,12,10",
-                            "headline":"Headline Goes Here2",
-                            "text":"<p>date Body text goes here, some HTML is OK</p>",
-                        },
-                        {
-                            "startDate":"2011,12,11",
-                            "endDate":"2011,12,12",
-                            "headline":"Headline Goes Here",
-                            "text":"<p>date Body text goes here, some HTML is OK</p>",
-                        }
+                    "date": [ 
+                        { "startDate":"2014,3,21", "endself.date":"2014,3,21", "headline":"Dividend", "text":"<p>Dividend payment frequency changes from yearly to quarterly </p>", },{ "startDate":"2014,3,14", "endself.date":"2014,3,14", "headline":"Creation of a share", "text":"<p>X shares</p>", },{ "startDate":"2014,3,14", "endself.date":"2014,3,14", "headline":"Creation of a share", "text":"<p>X shares</p>", },{ "startDate":"2014,3,14", "endself.date":"2014,3,14", "headline":"Creation of a share", "text":"<p>X shares</p>", },{ "startDate":"2014,3,21", "endself.date":"2014,3,21", "headline":"Dividend", "text":"<p>Dividend payment frequency changes from yearly to quarterly </p>", },{ "startDate":"2014,3,14", "endself.date":"2014,3,14", "headline":"Creation of a share", "text":"<p>X shares</p>", },{ "startDate":"2014,3,21", "endself.date":"2014,3,21", "headline":"Dividend", "text":"<p>Dividend payment frequency changes from yearly to quarterly </p>", },{ "startDate":"2014,3,14", "endself.date":"2014,3,14", "headline":"Creation of a share", "text":"<p>X shares</p>", },{ "startDate":"2014,1,15", "endself.date":"2014,1,15", "headline":"Change of an umbrella", "text":"<p>UCITs compliant</p>", },
                     ],
                 }
             }
@@ -40,7 +23,8 @@
                 width:      '1000',
                 height:     '750',
                 source:		dataSource,
-                embed_id:   'my-timeline'
+                embed_id:   'my-timeline',
+                start_zoom_adjust: '-10'
             });
         });
     </script>

@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import webbrowser, os
+import webbrowser, os, fileinput
 from xlrd import open_workbook, xldate_as_tuple
 from Tkinter import *
 
@@ -11,6 +11,23 @@ class Event:
         self.name = name
         self.comment = comment
         self.date = date
+
+    def toString(self):
+        s = ""
+        s = s + '{ "startDate":"' + \
+                str(self.date[0]) + ',' + str(self.date[1]) + ',' + str(self.date[2]) + \
+                '", ' + \
+                '"endself.date":"' + \
+                str(self.date[0]) + ',' + str(self.date[1]) + ',' + str(self.date[2]) + \
+                '", ' + \
+                '"headline":"' + \
+                self.name + \
+                '", ' + \
+                '"text":"' + \
+                '<p>' + self.comment + r'</p>' + \
+                '", ' + '},'
+
+        return s
 
 class Fund:
     def __init__(self, name):
@@ -30,8 +47,24 @@ class Fund:
             print "---------------"
 
     def showTimeline(self):
-        filename = 'index.html'
-        filepath = os.path.realpath(filename)
+        template = open('template.html', 'r')
+        if os.path.isfile('index.html'):
+            os.remove('index.html')
+        indexFile = open('index.html', 'w')
+
+        for line in template:
+            if line.find("FundName"):
+                line = line.replace("FundName", self.name)
+            if line.find("EventDates"):
+                eventString = ""
+                for event in self.events:
+                    eventString = eventString + event.toString()
+                line = line.replace("EventDates", eventString)
+            indexFile.write(line.encode('utf8'))
+        template.close()
+        indexFile.close()
+
+        filepath = os.path.realpath('index.html')
         webbrowser.open('file://'+filepath)
 
 #-------------------------------------------

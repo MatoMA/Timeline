@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Timeline</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script src="http://cdn.knightlab.com/libs/timeline/latest/js/storyjs-embed.js"></script>
+    <script>
+        $(document).ready(function() {
+            dataSource = {
+                "timeline":
+                {
+                    "headline":"FundName",
+                    "type":"default",
+                    "text":"<p></p>",
+                    "date": [ 
+                        EventDates
+                    ],
+                }
+            }
+            createStoryJS({
+                type:       'timeline',
+                width:      '1000',
+                height:     '750',
+                source:		dataSource,
+                embed_id:   'my-timeline',
+                start_zoom_adjust: '-10'
+            });
+        });
+    </script>
+</head>
+<body>
+    <div id="my-timeline"></div>
+</body>
+</html>
